@@ -9,9 +9,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.android.take_a_break_app.fragments.MainFragment;
 import com.example.android.take_a_break_app.R;
 import com.example.android.take_a_break_app.fragments.FavouriteFragment;
-import com.example.android.take_a_break_app.MainFragment;
 import com.example.android.take_a_break_app.helpers.Constants;
 import com.example.android.take_a_break_app.helpers.NetworkUtils;
 
@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private String sort_type;
     private Bundle args;
+
     private MainFragment mainFragment;
     private FavouriteFragment favouriteFragment;
 
@@ -62,6 +63,9 @@ public class MainActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction().add(R.id.countries_list_container, favouriteFragment).commit();
             Log.e("sort_type_init", sort_type);
         }
+
+//        Crashlytics.getInstance().crash(); // Force a crash
+
     }
 
     private String getSortTypeFromPrefrence() {

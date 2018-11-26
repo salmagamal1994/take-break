@@ -34,6 +34,8 @@ android {
             applicationId "com.example.android.take_a_break_app.paid"
         }
     }
+    ext.enableCrashlytics = true
+
 }
 
 dependencies {
@@ -55,10 +57,10 @@ dependencies {
 
     implementation 'com.android.support:support-v4:26.1.0'
 
-    implementation 'com.google.firebase:firebase-core:16.0.1'
+    implementation 'com.google.firebase:firebase-core:16.0.5'
     implementation 'com.crashlytics.sdk.android:crashlytics:2.9.6'
 
-    freeImplementation 'com.google.android.gms:play-services-ads:11.8.0'
+    freeImplementation 'com.google.android.gms:play-services-ads:15.0.1'
 
     testImplementation 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
