@@ -1,0 +1,104 @@
+{
+  "project_info": {
+    "project_number": "8761638068",
+    "firebase_url": "https://takeabreakapp-659ad.firebaseio.com",
+    "project_id": "takeabreakapp-659ad",
+    "storage_bucket": "takeabreakapp-659ad.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:8761638068:android:2eeb2622d11014df",
+        "android_client_info": {
+          "package_name": "com.example.android.take_a_break_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "8761638068-8m8ubednj6nn8b4hn1n4phovd0g2daqb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFhj4nBHCdjd1Watn2dj09B-L63jlX-Xg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:8761638068:android:3f9eb3a251a41811",
+        "android_client_info": {
+          "package_name": "com.example.android.take_a_break_app.free"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "8761638068-8m8ubednj6nn8b4hn1n4phovd0g2daqb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFhj4nBHCdjd1Watn2dj09B-L63jlX-Xg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:8761638068:android:d4bff8de2214b064",
+        "android_client_info": {
+          "package_name": "com.example.android.take_a_break_app.paid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "8761638068-8m8ubednj6nn8b4hn1n4phovd0g2daqb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFhj4nBHCdjd1Watn2dj09B-L63jlX-Xg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

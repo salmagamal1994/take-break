@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Take A Break</string>
+    <string name="Loading">loading</string>
+    <string name="error_network_connection">No Internet Connection</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="place_details_description">Description</string>
+    <string name="place_details_important_info">Important Info</string>
+    <string name="place_details_address_label">Address :</string>
+    <string name="place_details_opening_hours_label">Opening Hours :</string>
+    <string name="place_details_website_label">Website :</string>
+    <string name="content_description_place_logo">place logo</string>
+
+    <string name="favourite_places">Favourite Places</string>
+    <string name="all_places">All Places</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+
+</resources>
