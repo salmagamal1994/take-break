@@ -1,4 +1,4 @@
-package com.example.android.take_a_break_app;
+package com.example.android.take_a_break_app.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.android.take_a_break_app.R;
 import com.example.android.take_a_break_app.adapters.CountriesAdapter;
 import com.example.android.take_a_break_app.helpers.NetworkUtils;
 import com.example.android.take_a_break_app.helpers.Utils;
