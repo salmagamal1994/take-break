@@ -4,8 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Take_A_Break_App.iml" filepath="$PROJECT_DIR$/Take_A_Break_App.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/take-break.iml" filepath="$PROJECT_DIR$/.idea/take-break.iml" />
+      <module fileurl="file://G:\android studio project\Take_A_Break_App\.idea\take-break.iml" filepath="G:\android studio project\Take_A_Break_App\.idea\take-break.iml" />
     </modules>
   </component>
 </project>

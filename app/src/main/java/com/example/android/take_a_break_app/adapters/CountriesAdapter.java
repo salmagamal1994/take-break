@@ -3,6 +3,7 @@ package com.example.android.take_a_break_app.adapters;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -117,5 +118,16 @@ public class CountriesAdapter extends RecyclerView.Adapter<CountriesAdapter.Coun
         }
     }
 
+    public static int calculateColumns(Context context) {
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+        int gridItemWidth = 170;
+        int columns = (int) (dpWidth / gridItemWidth);
+        return columns;
+    }
 
+    public void setCountriesData(ArrayList<CountryItem> countryItems) {
+        this.countryItems = countryItems;
+        notifyDataSetChanged();
+    }
 }

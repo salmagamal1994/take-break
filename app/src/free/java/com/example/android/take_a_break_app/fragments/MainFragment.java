@@ -1,6 +1,7 @@
 package com.example.android.take_a_break_app.fragments;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,6 +22,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 
@@ -34,7 +36,7 @@ import retrofit2.Response;
 
 public class MainFragment extends Fragment {
 
-    private static final String TAG = MainFragment.class.getSimpleName();
+    public static final String TAG = MainFragment.class.getSimpleName();
 
     private Unbinder unbinder;
 
@@ -55,10 +57,42 @@ public class MainFragment extends Fragment {
     private ArrayList<CountryItem> countriesArrayList = new ArrayList<>();
 
 
+    //Scroll state
+    private Parcelable mState;
+    public static final String BUNDLE_COUNTRIES_ARRAY_KEY = "countries";
+    public static final String BUNDLE_GRID_SCROLL_KEY = "gridScroll";
+
+    private ArrayList<CountryItem> mCountriesArray = null;
+    private String mCountriesJson;
+    private String mCountriesRecievedFromInstance;
+
     public MainFragment() {
         // Required empty public constructor
     }
 
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        // Check if there is a previous state to be restored
+        if (savedInstanceState == null
+                || !savedInstanceState.containsKey(BUNDLE_COUNTRIES_ARRAY_KEY)
+                || !savedInstanceState.containsKey(BUNDLE_GRID_SCROLL_KEY)) {
+        } else {
+            //Retrieve data from the previous state
+            mCountriesRecievedFromInstance = savedInstanceState.getString(BUNDLE_COUNTRIES_ARRAY_KEY);
+            gson = new Gson();
+            mCountriesArray = gson.fromJson(mCountriesRecievedFromInstance, new TypeToken<ArrayList<CountryItem>>() {
+            }.getType());
+            // Prevent cases where there was no internet connection,
+            // no data was loaded previously but the user rotates device
+            if (mCountriesArray != null) {
+                setMainFragmentAdapter(mCountriesArray);
+                restoreScrollPosition(savedInstanceState);
+            }
+        }
+
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -103,13 +137,21 @@ public class MainFragment extends Fragment {
                     if (response.isSuccessful()) {
 
                         countriesArrayList = response.body();
+                        mCountriesArray = countriesArrayList;
 
                         countriesJson = gson.toJson(countriesArrayList);
                         Log.e(TAG, countriesJson);
-                        countriesAdapter = new CountriesAdapter(getActivity(), countriesArrayList);
-                        gridLayoutManager = new GridLayoutManager(getActivity(), 2);
-                        recyclerView.setLayoutManager(gridLayoutManager);
-                        recyclerView.setAdapter(countriesAdapter);
+
+                        if (countriesAdapter == null)
+                            setMainFragmentAdapter(countriesArrayList);
+                        else
+                            countriesAdapter.setCountriesData(countriesArrayList);
+
+//                        countriesAdapter = new CountriesAdapter(getActivity(), countriesArrayList);
+//                        int columnNumber = CountriesAdapter.calculateColumns(getActivity());
+//                        gridLayoutManager = new GridLayoutManager(getActivity(), columnNumber);
+//                        recyclerView.setLayoutManager(gridLayoutManager);
+//                        recyclerView.setAdapter(countriesAdapter);
 
                         onSuccess();
                     } else {
@@ -128,6 +170,7 @@ public class MainFragment extends Fragment {
 
 
         } else {
+            Utils.getInstance(getActivity()).dismissProgress();
             Toast.makeText(getActivity(), this.getResources().getString(R.string.error_network_connection), Toast.LENGTH_LONG).show();
 
         }
@@ -142,17 +185,80 @@ public class MainFragment extends Fragment {
         Utils.getInstance(getActivity()).dismissProgress();
     }
 
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        // To restore RecyclerView scroll
+        mState = gridLayoutManager.onSaveInstanceState();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
+        mFirebaseAnalytics.setCurrentScreen(getActivity(), TAG + " free", null /* class override */);
+
+        if (mCountriesArray == null) {
+            loadingCountriesList();
+        } else {
+            setMainFragmentAdapter(mCountriesArray);
+        }
+
+    }
+
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());;
-        mFirebaseAnalytics.setCurrentScreen(getActivity(), TAG + " paid", null /* class override */);
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+
+        mCountriesJson = gson.toJson(mCountriesArray);
+        // Insert data into the Bundle
+        outState.putString(BUNDLE_COUNTRIES_ARRAY_KEY, mCountriesJson);
+        // If the view was loaded correctly
+        if (recyclerView != null) {
+            outState.putInt(BUNDLE_GRID_SCROLL_KEY, gridLayoutManager.findFirstVisibleItemPosition());
+        }
+
+        super.onSaveInstanceState(outState);
+
+        //Save the fragment's state here
     }
+
+    private void restoreScrollPosition(Bundle savedInstanceState) {
+        int position = savedInstanceState.getInt(BUNDLE_GRID_SCROLL_KEY);
+        recyclerView.smoothScrollToPosition(position);
+    }
+
+
+    private void setMainFragmentLayoutManager() {
+        // Dynamically calculate the number of columns the GridManager should create
+        // depending on the screen size
+        int numberOfColumns = CountriesAdapter.calculateColumns(getActivity());
+
+        // Create and apply the layout manager
+        gridLayoutManager = new GridLayoutManager(getActivity(), numberOfColumns);
+        recyclerView.setLayoutManager(gridLayoutManager);
+    }
+
+    private void setMainFragmentAdapter(ArrayList<CountryItem> countryItems) {
+
+        // Layout Manager
+        setMainFragmentLayoutManager();
+
+        // Create and set the adapter
+        countriesAdapter = new CountriesAdapter(getActivity(), countryItems);
+
+        if (countryItems.size() > 0) {
+            recyclerView.setAdapter(countriesAdapter);
+        }
+    }
+
+
 }

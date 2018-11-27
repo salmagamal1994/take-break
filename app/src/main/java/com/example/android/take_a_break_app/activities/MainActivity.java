@@ -1,5 +1,6 @@
 package com.example.android.take_a_break_app.activities;
 
+import android.app.FragmentManager;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -33,6 +34,11 @@ public class MainActivity extends AppCompatActivity {
     private MainFragment mainFragment;
     private FavouriteFragment favouriteFragment;
 
+    private boolean mainIsRotated, favIsRotated;
+
+    public static final String BUNDLE_CRITERIA_KEY = "criteria";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,25 +49,33 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
+        if (savedInstanceState == null || !savedInstanceState.containsKey(BUNDLE_CRITERIA_KEY)) {
+            mainIsRotated = true;
+            favIsRotated = true;
+            sort_type = getSortTypeFromPrefrence();
 
-        sort_type = getSortTypeFromPrefrence();
-        if (sort_type.equals(Constants.ALL_PLACES)) {
+            if (sort_type.equals(Constants.ALL_PLACES)) {
+                Log.d(TAG, "Start to create a new fragment of main fragment.");
+                mainFragment = new MainFragment();
+                args = new Bundle();
+                args.putString(Constants.SORT_TYPE_KEY, sort_type);
+                mainFragment.setArguments(args);
+                //Inflate the fragment
+                getSupportFragmentManager().beginTransaction().replace(R.id.countries_list_container, mainFragment).commit();
+            } else if (sort_type.equals(Constants.FAVOURITE_PLACES)) {
+                Log.d(TAG, "Start to create a new fragment of favourite fragment.");
+                favouriteFragment = new FavouriteFragment();
+                args = new Bundle();
+                args.putString(Constants.SORT_TYPE_KEY, sort_type);
+                favouriteFragment.setArguments(args);
+                //Inflate the fragment
+                getSupportFragmentManager().beginTransaction().replace(R.id.countries_list_container, favouriteFragment).commit();
+            }
 
-            mainFragment = new MainFragment();
-            args = new Bundle();
-            args.putString(Constants.SORT_TYPE_KEY, sort_type);
-            mainFragment.setArguments(args);
-            //Inflate the fragment
-            getSupportFragmentManager().beginTransaction().add(R.id.countries_list_container, mainFragment).commit();
-            Log.e("sort_type_init", sort_type);
-        } else if (sort_type.equals(Constants.FAVOURITE_PLACES)) {
-            favouriteFragment = new FavouriteFragment();
-            args = new Bundle();
-            args.putString(Constants.SORT_TYPE_KEY, sort_type);
-            favouriteFragment.setArguments(args);
-            //Inflate the fragment
-            getSupportFragmentManager().beginTransaction().add(R.id.countries_list_container, favouriteFragment).commit();
-            Log.e("sort_type_init", sort_type);
+        } else {
+            sort_type = savedInstanceState.getString(BUNDLE_CRITERIA_KEY);
+            mainIsRotated = savedInstanceState.getBoolean(Constants.MAIN_IS_ROTATED);
+            favIsRotated = savedInstanceState.getBoolean(Constants.FAV_IS_ROTATED);
         }
 
 //        Crashlytics.getInstance().crash(); // Force a crash
@@ -107,27 +121,26 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_all_places) {
             menu.getItem(0).setIcon(R.drawable.ic_action_all);
             if (NetworkUtils.isNetworkAvailable(this)) {
-                //  sort_type = sharedPreferences.getString("sort_type", Constants.ALL_PLACES);
-                editor.putString("sort_type", Constants.ALL_PLACES);
-                mainFragment = new MainFragment();
                 sort_type = Constants.ALL_PLACES;
+                editor.putString("sort_type", Constants.ALL_PLACES);
+
+                mainFragment = new MainFragment();
                 args.putString(Constants.SORT_TYPE_KEY, sort_type);
                 mainFragment.setArguments(args);
                 getSupportFragmentManager().beginTransaction().replace(R.id.countries_list_container, mainFragment).commit();
+
 
             } else {
                 Toast.makeText(this, this.getResources().getString(R.string.error_network_connection), Toast.LENGTH_LONG).show();
             }
             editor.commit();
-            Log.e("sort_type_all", sharedPreferences.getString("sort_type", Constants.ALL_PLACES));
             return true;
         } else if (id == R.id.action_favourite_places) {
             menu.getItem(0).setIcon(R.drawable.ic_action_favourite);
             if (NetworkUtils.isNetworkAvailable(this)) {
-                // sort_type = sharedPreferences.getString("sort_type", Constants.FAVOURITE_PLACES);
+                sort_type = Constants.FAVOURITE_PLACES;
                 editor.putString("sort_type", Constants.FAVOURITE_PLACES);
                 favouriteFragment = new FavouriteFragment();
-                sort_type = Constants.FAVOURITE_PLACES;
                 args.putString(Constants.SORT_TYPE_KEY, sort_type);
                 favouriteFragment.setArguments(args);
                 getSupportFragmentManager().beginTransaction().replace(R.id.countries_list_container, favouriteFragment).commit();
@@ -136,10 +149,18 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, this.getResources().getString(R.string.error_network_connection), Toast.LENGTH_LONG).show();
             }
             editor.commit();
-            Log.e("sort_type_fav", sharedPreferences.getString("sort_type", Constants.FAVOURITE_PLACES));
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putString(BUNDLE_CRITERIA_KEY, sort_type);
+        outState.getBoolean(Constants.MAIN_IS_ROTATED, mainIsRotated);
+        outState.getBoolean(Constants.FAV_IS_ROTATED, favIsRotated);
     }
 
 }

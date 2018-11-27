@@ -52,7 +52,7 @@ public class ThingsToDoAdapter extends RecyclerView.Adapter<ThingsToDoAdapter.Th
     public ThingsToDoAdapter(Context context, ArrayList<ThingsToDoItem> thingsToDoItems) {
         this.context = context;
         this.thingsToDoItems = thingsToDoItems;
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(context) ;
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(context);
         sharedPreferences = context.getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
 
     }
@@ -156,7 +156,7 @@ public class ThingsToDoAdapter extends RecyclerView.Adapter<ThingsToDoAdapter.Th
         }
 
         private void recordToDoSelected(ThingsToDoItem item) {
-            String id =  String.valueOf(item.getId());
+            String id = String.valueOf(item.getId());
             String name = item.getShortDescription();
 
             Bundle bundle = new Bundle();
@@ -187,5 +187,10 @@ public class ThingsToDoAdapter extends RecyclerView.Adapter<ThingsToDoAdapter.Th
                 selection,
                 null,
                 null).getCount() > 0 ? true : false;
+    }
+
+    public void setToDoData(ArrayList<ThingsToDoItem> thingsToDoItems) {
+        this.thingsToDoItems = thingsToDoItems;
+        notifyDataSetChanged();
     }
 }

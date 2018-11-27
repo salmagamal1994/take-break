@@ -19,4 +19,8 @@ public class Constants {
     public static final String SHARED_PREFERENCES = "MyPrefsForWidget";
 
 
+    public static final String MAIN_IS_ROTATED = "MainIsRotated";
+    public static final String FAV_IS_ROTATED = "FavIsRotated";
+
+
 }

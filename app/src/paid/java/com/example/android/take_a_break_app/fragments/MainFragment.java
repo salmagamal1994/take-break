@@ -20,6 +20,7 @@ import com.example.android.take_a_break_app.models.CountryItem;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import butterknife.BindView;
@@ -94,7 +95,8 @@ public class MainFragment extends Fragment {
                         countriesJson = gson.toJson(countriesArrayList);
                         Log.e(TAG, countriesJson);
                         countriesAdapter = new CountriesAdapter(getActivity(), countriesArrayList);
-                        gridLayoutManager = new GridLayoutManager(getActivity(), 2);
+                        int columnNumber = CountriesAdapter.calculateColumns(getActivity());
+                        gridLayoutManager = new GridLayoutManager(getActivity(), columnNumber);
                         recyclerView.setLayoutManager(gridLayoutManager);
                         recyclerView.setAdapter(countriesAdapter);
 
@@ -138,7 +140,7 @@ public class MainFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());;
+        FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
         mFirebaseAnalytics.setCurrentScreen(getActivity(), TAG + " paid", null /* class override */);
 
     }
