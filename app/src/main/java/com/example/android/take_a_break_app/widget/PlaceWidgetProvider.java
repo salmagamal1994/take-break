@@ -3,6 +3,7 @@ package com.example.android.take_a_break_app.widget;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -37,6 +38,26 @@ public class PlaceWidgetProvider extends AppWidgetProvider {
         views.setTextViewText(R.id.open_hours_text, placeOpenHours);
 
 
+        //Create an Intent with the AppWidgetManager.ACTION_APPWIDGET_UPDATE action//
+
+        Intent intentUpdate = new Intent(context, PlaceWidgetProvider.class);
+        intentUpdate.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+
+
+       //Update the current widget instance only, by creating an array that contains the widget’s unique ID//
+
+        int[] idArray = new int[]{appWidgetId};
+        intentUpdate.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, idArray);
+
+
+//      Wrap the intent as a PendingIntent, using PendingIntent.getBroadcast()//
+
+        PendingIntent pendingUpdate = PendingIntent.getBroadcast(
+                context, appWidgetId, intentUpdate,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+
+        views.setOnClickPendingIntent(R.id.button_update, pendingUpdate);
+
         Gson gson = new Gson();
         String thingsToDoOneItemJson = gson.toJson(thingsToDoItem);
         Intent intent = new Intent(context, DetailsActivity.class);
@@ -46,6 +67,7 @@ public class PlaceWidgetProvider extends AppWidgetProvider {
 
 
         // Instruct the widget manager to update the widget
+
         appWidgetManager.updateAppWidget(appWidgetId, views);
     }
 

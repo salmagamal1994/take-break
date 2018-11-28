@@ -249,5 +249,6 @@
         app:backgroundTint="@color/colorPrimary"
         app:layout_anchor="@id/place_details_bar"
         app:layout_anchorGravity="bottom|end"
-        app:srcCompat="@drawable/ic_widgets_black_24dp" />
+        app:srcCompat="@drawable/ic_widgets_black_24dp"
+        android:contentDescription="@string/add_widget"/>
 </android.support.design.widget.CoordinatorLayout>

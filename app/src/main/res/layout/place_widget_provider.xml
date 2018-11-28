@@ -1,11 +1,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/widget_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
     android:orientation="vertical"
-    android:padding="@dimen/widget_margin"
-    android:id="@+id/widget_layout">
+    android:padding="@dimen/widget_margin">
 
     <TextView
         android:id="@+id/place_name_text_view"
@@ -51,7 +51,7 @@
             android:contentDescription="@string/appwidget_text"
             android:gravity="start"
             android:padding="5dp"
-            android:text="jljjpojspojojgpojpsjg"
+            android:text=""
             android:textAlignment="viewStart"
             android:textColor="@color/white"
             android:textSize="19sp"
@@ -90,7 +90,7 @@
             android:contentDescription="@string/appwidget_text"
             android:gravity="start"
             android:padding="5dp"
-            android:text="www.google.com"
+            android:text=""
             android:textAlignment="viewStart"
             android:textColor="@color/white"
             android:textSize="19sp"
@@ -129,7 +129,7 @@
             android:contentDescription="@string/appwidget_text"
             android:gravity="start"
             android:padding="5dp"
-            android:text="st. 10am to 12pm"
+            android:text=""
             android:textAlignment="viewStart"
             android:textColor="@color/white"
             android:textSize="19sp"
@@ -137,5 +137,17 @@
 
     </LinearLayout>
 
+    <Button
+        android:id="@+id/button_update"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:background="@color/colorPrimaryDark"
+        android:padding="7dp"
+        android:text="@string/widget_update_know_btn_str"
+        android:textAllCaps="false"
+        android:textColor="@color/colorAccent"
+        android:textSize="16sp" />
 
 </LinearLayout>

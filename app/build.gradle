@@ -3,6 +3,15 @@ apply plugin: 'io.fabric'
 
 
 android {
+
+    signingConfigs {
+        signConfig {
+            keyAlias 'takebreak'
+            keyPassword 'salma1994'
+            storeFile file('C:/Users/Copy Center/Desktop/takeABreakKeyStore/tbKeyStore.jks')
+            storePassword 'salma1994'
+        }
+    }
     compileSdkVersion 26
 
     flavorDimensions "default"
@@ -19,6 +28,8 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.signConfig
+
         }
     }
 

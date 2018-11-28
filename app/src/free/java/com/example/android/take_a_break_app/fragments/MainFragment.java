@@ -61,10 +61,14 @@ public class MainFragment extends Fragment {
     private Parcelable mState;
     public static final String BUNDLE_COUNTRIES_ARRAY_KEY = "countries";
     public static final String BUNDLE_GRID_SCROLL_KEY = "gridScroll";
+    private static final String LAYOUT_MANAGER_STATE = "LAYOUT_MANAGER_STATE";
+
 
     private ArrayList<CountryItem> mCountriesArray = null;
     private String mCountriesJson;
     private String mCountriesRecievedFromInstance;
+    private Parcelable mLayoutManagerState;
+
 
     public MainFragment() {
         // Required empty public constructor
@@ -190,7 +194,9 @@ public class MainFragment extends Fragment {
     public void onPause() {
         super.onPause();
         // To restore RecyclerView scroll
-        mState = gridLayoutManager.onSaveInstanceState();
+        if(recyclerView !=null && gridLayoutManager !=null) {
+            mState = gridLayoutManager.onSaveInstanceState();
+        }
     }
 
     @Override
@@ -224,6 +230,7 @@ public class MainFragment extends Fragment {
         // If the view was loaded correctly
         if (recyclerView != null) {
             outState.putInt(BUNDLE_GRID_SCROLL_KEY, gridLayoutManager.findFirstVisibleItemPosition());
+            outState.putParcelable(LAYOUT_MANAGER_STATE, mLayoutManagerState);
         }
 
         super.onSaveInstanceState(outState);
@@ -233,7 +240,9 @@ public class MainFragment extends Fragment {
 
     private void restoreScrollPosition(Bundle savedInstanceState) {
         int position = savedInstanceState.getInt(BUNDLE_GRID_SCROLL_KEY);
+        mLayoutManagerState = savedInstanceState.getParcelable(LAYOUT_MANAGER_STATE);
         recyclerView.smoothScrollToPosition(position);
+        recyclerView.getLayoutManager().onRestoreInstanceState(mLayoutManagerState);
     }
 
 

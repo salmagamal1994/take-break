@@ -16,5 +16,6 @@
     <string name="all_places">All Places</string>
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
+    <string name="widget_update_know_btn_str">Update Now</string>
 
 </resources>
