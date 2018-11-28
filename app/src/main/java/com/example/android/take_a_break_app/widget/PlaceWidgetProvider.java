@@ -16,6 +16,8 @@ import com.example.android.take_a_break_app.helpers.Constants;
 import com.example.android.take_a_break_app.models.ThingsToDoItem;
 import com.google.gson.Gson;
 
+import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
+
 /**
  * Implementation of App Widget functionality.
  */
@@ -44,7 +46,7 @@ public class PlaceWidgetProvider extends AppWidgetProvider {
         intentUpdate.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
 
 
-       //Update the current widget instance only, by creating an array that contains the widget’s unique ID//
+        //Update the current widget instance only, by creating an array that contains the widget’s unique ID//
 
         int[] idArray = new int[]{appWidgetId};
         intentUpdate.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, idArray);
@@ -62,7 +64,7 @@ public class PlaceWidgetProvider extends AppWidgetProvider {
         String thingsToDoOneItemJson = gson.toJson(thingsToDoItem);
         Intent intent = new Intent(context, DetailsActivity.class);
         intent.putExtra(Constants.THINGS_TO_DO_ONE_ITEM_KEY, thingsToDoOneItemJson);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent,0);
         views.setOnClickPendingIntent(R.id.widget_layout, pendingIntent);
 
 
