@@ -8,7 +8,7 @@ android {
         signConfig {
             keyAlias 'takebreak'
             keyPassword 'salma1994'
-            storeFile file('C:/Users/Copy Center/Desktop/takeABreakKeyStore/tbKeyStore.jks')
+            storeFile file('tbKeyStore.jks')
             storePassword 'salma1994'
         }
     }
